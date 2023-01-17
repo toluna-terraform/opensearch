@@ -33,6 +33,7 @@ module "opensearch" {
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.26 |
+| <a name="provider_elasticsearch"></a> [elasticsearch](#phillbaker/elasticsearch) | >= 1.6.2 |
 
 ## Resources
 
