@@ -67,7 +67,7 @@ resource "aws_opensearch_domain" "os" {
               "AWS": "*"
             },
             "Effect": "Allow",
-            "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${each.value.domain_name}/*"
+            "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${each.value.domain_name}-${var.env_name}/*"
         }
     ]
 }
@@ -100,16 +100,13 @@ locals {
           }
         ]
   ])
-}  
+}
 
-########################################################################
-# This works only with export of AWS credentials not with sso login    #
-########################################################################
-
-resource "elasticsearch_opendistro_ism_policy" "cleanup" {
-  for_each = {
-    for path in local.policy_names : "${path.es_key}.${path.policy_key}" => path
-  }
-  policy_id = "${each.value.policy_key}"
-  body      = file("./files/es_policy_${each.value.policy_key}.json")
+resource "aws_route53_record" "logging_service_record" {
+  for_each = var.create_os ? var.os_group : {}
+  zone_id = data.aws_route53_zone.selected.zone_id
+  name    = "opensearch"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [aws_opensearch_domain.os[each.key].endpoint]
 }

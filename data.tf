@@ -7,3 +7,9 @@ data "aws_acm_certificate" "issued" {
   statuses = ["ISSUED"]
   most_recent = true
 }
+
+
+data "aws_route53_zone" "selected" {
+  name         = "${join("", regexall("[a-z0-9]+", lower(var.env_name)))}.tolunainsights-internal.com"
+  private_zone = true
+}
