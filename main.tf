@@ -9,7 +9,14 @@ resource "aws_opensearch_domain" "os" {
   for_each              = var.create_os ? var.os_group : {}
   domain_name           = "${each.value.domain_name}-${var.env_name}"
   engine_version        = each.value.engine_version
+
+#  # advanced_options = var.advanced_options
+#domain_endpoint_options {
+#  custom_endpoint_enabled = true
+#  custom_endpoint_certificate_arn = data.aws_acm_certificate.issued.arn
+#  custom_endpoint = "${each.key}-${replace(var.env_name,"-","")}.tolunainsights
 }
+
 
   ebs_options {
     ebs_enabled = each.value.ebs_volume_size > 0 ? true : false
