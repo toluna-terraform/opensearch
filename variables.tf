@@ -5,7 +5,6 @@ variable "os_group" {}
 variable "create_os" {}
 variable "vpc_private_management_subnet_id" {}
 variable "create_service_link_role" {}
-# variable "access_policie" {}
 variable "advanced_options" {
   type        = map(string)
   default     = {}
