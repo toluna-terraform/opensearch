@@ -85,7 +85,6 @@ CONFIG
   )
 
   depends_on = [aws_iam_service_linked_role.os]
-}
 
 provider "elasticsearch" {
     url = "https://os-logsystem-${var.env_name}"
