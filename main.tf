@@ -14,8 +14,8 @@ resource "aws_opensearch_domain" "os" {
 #domain_endpoint_options {
 #  custom_endpoint_enabled = true
 #  custom_endpoint_certificate_arn = data.aws_acm_certificate.issued.arn
-#  custom_endpoint = "${each.key}-${replace(var.env_name,"-","")}.tolunainsights
-}
+#  custom_endpoint = "${each.key}-${replace(var.env_name,"-","")}.tolunainsights-internal.com"
+#}
 
 
   ebs_options {
@@ -85,6 +85,7 @@ CONFIG
   )
 
   depends_on = [aws_iam_service_linked_role.os]
+}
 
 provider "elasticsearch" {
     url = "https://os-logsystem-${var.env_name}"
