@@ -11,7 +11,7 @@ The module requires some pre conditions
 ## Usage
 ```hcl
 module "opensearch" {
-  source = "github.com/toluna-terraform/terraform-aws-opensearch?ref=0.0.1"
+  source                           = "github.com/toluna-terraform/terraform-aws-opensearch?ref=0.0.1"
   create_os                        = local.main.create_opensearch
   vpc_private_management_subnet_id = module.vpc.private_subnet_management_ids
   security_group_ids               = module.security_groups.all_name
