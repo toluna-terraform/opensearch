@@ -53,3 +53,31 @@ resource |
 |env_name|Environmanet name |
 |env_type|Environmanet type (I.E. prod or non-prod)|
 |tags|Tags|
+
+
+## Example of json configuration to be used togheter with the variable os_group
+
+```hcl
+{
+  "name-opensearch": {
+    "domain_name": "os-name",
+    "sg_names": ["your_sg_name"],
+    "engine_version": "OpenSearch_1.0",
+    "ebs_volume_size": 150,
+    "ebs_volume_type": "gp3",
+    "encrypt_at_rest" : true,
+    "kms_key_id": "",
+    "instance_count": 2,
+    "instance_type": "r5.large.search",
+    "dedicated_master_enabled" : false,
+    "dedicated_master_count" : 0,
+    "dedicated_master_type" : "m5.large.search",
+    "zone_awareness_enabled" : true,
+    "availability_zone_count" : 2,
+    "node_to_node_encryption": true,
+    "automated_snapshot_start_hour": "02",
+    "create_iam_service_linked_role": false,
+    "policy_names": []
+  }
+}
+```
