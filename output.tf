@@ -1,3 +1,3 @@
-output "es_endpoint" {
-  value = aws_elasticsearch_domain.es[*]
+output "os_endpoint" {
+  value = aws_elasticsearch_domain.os[*]
 }
