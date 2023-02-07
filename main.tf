@@ -116,7 +116,7 @@ CONFIG
 
 log_publishing_options {
     cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
-    log_type                 = each.value.log_type
+    log_type                 = try(each.value.log_type,[])
   }
 
   tags = merge(
