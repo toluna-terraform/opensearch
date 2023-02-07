@@ -116,15 +116,10 @@ CONFIG
 
 
 
-
-    //cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
-    log_type = each.value.log_type[0]
-    log_publishing_options = [
-    {
-      cloudwatch_log_group_arn = aws_cloudwatch_log_group.os_log_group.arn,
-      log_level                = each.value.log_level
-    },
-  ]
+log_publishing_options {
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
+    log_type                 = each.value.log_type[0]
+  }
 
   tags = merge(
     var.tags,
