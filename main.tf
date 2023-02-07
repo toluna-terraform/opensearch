@@ -118,7 +118,7 @@ CONFIG
 
 
     //cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
-    //log_type = each.value.log_type[0]
+    log_type = each.value.log_type[0]
     log_publishing_options = [
     {
       cloudwatch_log_group_arn = aws_cloudwatch_log_group.os_log_group.arn,
