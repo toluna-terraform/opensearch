@@ -114,10 +114,17 @@ resource "aws_opensearch_domain" "os" {
 }
 CONFIG
 
-log_publishing_options {
-    cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
-    log_type                 = try(each.value.log_type,[])
-  }
+
+
+
+    //cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
+    //log_type = each.value.log_type[0]
+    log_publishing_options = [
+    {
+      cloudwatch_log_group_arn = aws_cloudwatch_log_group.os_log_group.arn,
+      log_level                = each.value.log_level
+    },
+  ]
 
   tags = merge(
     var.tags,
