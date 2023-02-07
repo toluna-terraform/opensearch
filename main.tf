@@ -115,7 +115,7 @@ resource "aws_opensearch_domain" "os" {
 CONFIG
 
 log_publishing_options {
-    cloudwatch_log_group_arn = aws_cloudwatch_log_group.this.arn
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
     log_type                 = each.value.log_type
   }
 
