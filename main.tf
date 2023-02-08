@@ -1,3 +1,43 @@
+resource "aws_cloudwatch_log_group" "this" {
+    for_each = var.create_os ? var.os_group : {}
+    name = "/aws/OpenSearchService/domains/${each.value.domain_name}-${var.env_name}/application-logs"
+
+    tags = merge(
+    var.tags,
+    tomap({
+      "Name" = "os-${var.env_name}-${each.value.domain_name}",
+      "environment" = var.env_name,
+      "product" = "opensearch",
+      "application_role" = "network",
+      "created_by" = "terraform"}
+    )
+  )
+}
+
+resource "aws_cloudwatch_log_resource_policy" "this" {
+  policy_name = "CloudWatch Access"
+
+  policy_document = <<CONFIG
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "es.amazonaws.com"
+      },
+      "Action": [
+        "logs:PutLogEvents",
+        "logs:PutLogEventsBatch",
+        "logs:CreateLogStream"
+      ],
+      "Resource": "arn:aws:logs:*"
+    }
+  ]
+}
+CONFIG
+}
+
 resource "aws_iam_service_linked_role" "os" {
   
   count            = var.create_service_link_role ? 1 : 0   #if account for aws_service_name already exist you must set the flag to false otherwise it will fail
@@ -42,6 +82,7 @@ resource "aws_opensearch_domain" "os" {
     }
   }
 
+
   node_to_node_encryption {
     enabled = each.value.node_to_node_encryption
   }
@@ -72,6 +113,32 @@ resource "aws_opensearch_domain" "os" {
     ]
 }
 CONFIG
+
+
+
+log_publishing_options {
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
+    log_type                 = "INDEX_SLOW_LOGS"
+    enabled                  = each.value.ENABLE_INDEX_SLOW_LOGS
+  }
+
+log_publishing_options {
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
+    log_type                 = "SEARCH_SLOW_LOGS"
+    enabled                  = each.value.ENABLE_SEARCH_SLOW_LOGS
+  }
+
+log_publishing_options {
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
+    log_type                 = "ES_APPLICATION_LOGS"
+    enabled                  = each.value.ENABLE_ES_APPLICATION_LOGS
+  }
+
+log_publishing_options {
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
+    log_type                 = "AUDIT_LOGS"
+    enabled                  = each.value.ENABLE_AUDIT_LOGS
+  }
 
   tags = merge(
     var.tags,
