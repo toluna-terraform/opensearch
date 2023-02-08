@@ -119,28 +119,25 @@ CONFIG
 log_publishing_options {
     cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
     log_type                 = "INDEX_SLOW_LOGS"
-    enabled                  = false
+    enabled                  = each.value.ENABLE_INDEX_SLOW_LOGS
   }
 
 log_publishing_options {
     cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
     log_type                 = "SEARCH_SLOW_LOGS"
-    enabled                  = false
-
+    enabled                  = each.value.ENABLE_SEARCH_SLOW_LOGS
   }
 
 log_publishing_options {
     cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
     log_type                 = "ES_APPLICATION_LOGS"
-    enabled                  = true
-
+    enabled                  = each.value.ENABLE_ES_APPLICATION_LOGS
   }
 
 log_publishing_options {
     cloudwatch_log_group_arn = aws_cloudwatch_log_group.this[each.key].arn
     log_type                 = "AUDIT_LOGS"
-    enabled                  = false
-
+    enabled                  = each.value.ENABLE_AUDIT_LOGS
   }
 
   tags = merge(

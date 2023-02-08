@@ -52,6 +52,10 @@ resource |
 |env_name|Environmanet name |
 |env_type|Environmanet type (I.E. prod or non-prod)|
 |tags|Tags|
+|ENABLE_INDEX_SLOW_LOGS|Enables index slow logs in cloudwatch for the opensearch|
+|ENABLE_SEARCH_SLOW_LOGS|Enables search slow logs in cloudwatch for the opensearch|
+|ENABLE_ES_APPLICATION_LOGS|Enables error logs in cloudwatch for the opensearch|
+|ENABLE_AUDIT_LOGS|Enables audit logs in cloudwatch for the opensearch|
 
 
 ## Example of json configuration to be used togheter with the variable os_group
@@ -76,7 +80,11 @@ resource |
     "node_to_node_encryption": true,
     "automated_snapshot_start_hour": "02",
     "create_iam_service_linked_role": false,
-    "policy_names": []
+    "policy_names": [],
+    "ENABLE_INDEX_SLOW_LOGS": false,
+    "ENABLE_SEARCH_SLOW_LOGS": false,
+    "ENABLE_ES_APPLICATION_LOGS": true,
+    "ENABLE_AUDIT_LOGS": false
   }
 }
 ```
